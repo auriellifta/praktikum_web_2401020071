@@ -16,4 +16,4 @@
     <p>Rata-rata: {{ number_format($rataRata, 2) }}</p>
     <p>Status: {{ $status }}</p>
 </body>
-</html>
+</html> 
