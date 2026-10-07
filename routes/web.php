@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
     return view('welcome');
@@ -82,4 +83,46 @@ Route::post('/form-mahasiswa', function (Request $request) {
     $data['usia'] = (int) $data['usia'];
 
     return view('hasil-form', ['data' => $data]);
+});
+
+// ==========================================
+// KODE PRAKTIKUM PERTEMUAN 5 (PDO & PREPARED STATEMENT)
+// ==========================================
+
+// Route GET: Menampilkan data mahasiswa dari database
+Route::get('/mahasiswa/{nim?}', function (?string $nim = null) {
+    try {
+        // Mengambil koneksi PDO dari konfigurasi Laravel
+        $pdo = DB::connection()->getPdo();
+
+        $sql = 'SELECT m.nim, m.nama, m.email, m.usia, p.nama_prodi 
+                FROM mahasiswa AS m 
+                JOIN program_studi AS p 
+                ON p.id = m.program_studi_id';
+
+        // Menambahkan parameter WHERE jika ada input NIM di URL
+        if ($nim !== null) {
+            $sql .= ' WHERE m.nim = :nim';
+        }
+
+        $sql .= ' ORDER BY m.nim';
+
+        // Menyiapkan dan mengeksekusi prepared statement dengan aman
+        $statement = $pdo->prepare($sql);
+        $statement->execute($nim !== null ? ['nim' => $nim] : []);
+        
+        // Mengambil seluruh hasil query sebagai array asosiatif
+        $daftarMahasiswa = $statement->fetchAll(\PDO::FETCH_ASSOC);
+
+        // Mengirim data ke view mahasiswa.blade.php
+        return view('mahasiswa', compact('daftarMahasiswa', 'nim'));
+        
+    } catch (\Throwable $error) {
+        // Mencatat error dan menampilkan pesan gagal
+        report($error);
+        return response(
+            'Koneksi atau query basis data gagal. Periksa file .env dan layanan MySQL.',
+            500
+        );
+    }
 });
