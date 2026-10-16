@@ -85,10 +85,6 @@ Route::post('/form-mahasiswa', function (Request $request) {
     return view('hasil-form', ['data' => $data]);
 });
 
-// ==========================================
-// KODE PRAKTIKUM PERTEMUAN 5 (PDO & PREPARED STATEMENT)
-// ==========================================
-
 // ROUTE GET: Menampilkan form tambah dan tabel data mahasiswa
 Route::get('/mahasiswa', function () {
     try {
