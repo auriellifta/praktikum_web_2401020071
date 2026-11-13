@@ -3,6 +3,16 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BukuController;
+
+// Halaman awal Laravel bawaan (Modul 9 - Percobaan 1)
+Route::get('/', function () {
+    return view('welcome');
+});
+
+// Rute Modul 9
+Route::get('/buku', [BukuController::class, 'index']);
+Route::get('/buku/{kode}', [BukuController::class, 'show']);
 
 // 1. ROUTE GET: Read dengan Pencarian dan Filter
 Route::get('/mahasiswa', function (Request $request) {
@@ -51,7 +61,7 @@ Route::get('/mahasiswa', function (Request $request) {
     }
 })->name('mahasiswa.index');
 
-// 2. ROUTE POST: Create Data (Dari Modul 6)
+// 2. ROUTE POST: Create Data
 Route::post('/mahasiswa', function (Request $request) {
     $data = $request->validate([
         'nim' => ['required', 'string', 'max:20'],
