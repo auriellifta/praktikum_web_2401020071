@@ -12,7 +12,7 @@ class Buku extends Model
             ['kode' => 'BK001', 'judul' => 'Dasar PHP'],
             ['kode' => 'BK002', 'judul' => 'Belajar Laravel'],
             ['kode' => 'BK003', 'judul' => 'Logika Web'],
-            ['kode' => 'BK004', 'judul' => 'Pemrograman Web Lanjut'], // <-- Tambahan BK004
+            ['kode' => 'BK004', 'judul' => 'Pemrograman Web Lanjut'],
         ];
     }
 }

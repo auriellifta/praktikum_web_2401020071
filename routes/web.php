@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BukuController;
 
-// Halaman awal Laravel bawaan (Modul 9 - Percobaan 1)
 Route::get('/', function () {
     return view('welcome');
 });
